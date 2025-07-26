@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevX | Full Stack Developer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ff00;
+            --secondary: #009900;
+            --bg-dark: #111111;
+            --bg-darker: #080808;
+            --text-light: #f0f0f0;
+            --text-dark: #333333;
+            --card-bg: #1a1a1a;
+            --terminal-bg: #000000;
+            --terminal-text: #00ff00;
+            --editor-bg: #1e1e1e;
+            --editor-line: #2d2d2d;
+            --editor-text: #d4d4d4;
+            --editor-keyword: #569cd6;
+            --editor-function: #dcdcaa;
+            --editor-string: #ce9178;
+            --editor-comment: #6a9955;
+        }
+
+        [data-theme="light"] {
+            --primary: #0066cc;
+            --secondary: #004d99;
+            --bg-dark: #f5f5f5;
+            --bg-darker: #e0e0e0;
+            --text-light: #333333;
+            --text-dark: #111111;
+            --card-bg: #ffffff;
+            --terminal-bg: #f0f0f0;
+            --terminal-text: #333333;
+            --editor-bg: #ffffff;
+            --editor-line: #f5f5f5;
+            --editor-text: #333333;
+            --editor-keyword: #0000ff;
+            --editor-function: #795e26;
+            --editor-string: #a31515;
+            --editor-comment: #008000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--bg-darker);
+            padding: 20px 0;
+            border-bottom: 1px solid var(--primary);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-switcher {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .theme-switcher:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c') no-repeat center center/cover;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .hero h1 span {
+            color: var(--secondary);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .typewriter {
+            border-right: 3px solid var(--primary);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary); }
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--text-dark);
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--text-dark);
+        }
+
+        /* About Section */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .skill {
+            background: var(--card-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--primary);
+        }
+
+        .terminal-container {
+            flex: 1;
+            background: var(--terminal-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .terminal-header {
+            background: var(--bg-darker);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+            margin-right: 15px;
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-btn.red {
+            background: #ff5f56;
+        }
+
+        .terminal-btn.yellow {
+            background: #ffbd2e;
+        }
+
+        .terminal-btn.green {
+            background: #27c93f;
+        }
+
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .terminal-body {
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            color: var(--terminal-text);
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        .terminal-line {
+            margin-bottom: 10px;
+        }
+
+        .terminal-prompt {
+            color: var(--primary);
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: var(--terminal-text);
+            font-family: 'Courier New', monospace;
+            width: 80%;
+            outline: none;
+        }
+
+        .terminal-output {
+            margin-top: 10px;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(0, 255, 0, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 255, 0, 0.2);
+            border: 1px solid var(--primary);
+        }
+
+        .project-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-info {
+            padding: 20px;
+        }
+
+        .project-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .project-info p {
+            margin-bottom: 15px;
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tech-tag {
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--primary);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .project-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .project-links a:hover {
+            color: var(--primary);
+        }
+
+        .project-links a i {
+            margin-right: 5px;
+        }
+
+        /* Code Editor Demo */
+        .editor-container {
+            background: var(--editor-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 50px;
+        }
+
+        .editor-header {
+            background: var(--bg-darker);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .editor-buttons {
+            display: flex;
+            gap: 8px;
+            margin-right: 15px;
+        }
+
+        .editor-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .editor-btn.red {
+            background: #ff5f56;
+        }
+
+        .editor-btn.yellow {
+            background: #ffbd2e;
+        }
+
+        .editor-btn.green {
+            background: #27c93f;
+        }
+
+        .editor-title {
+            flex: 1;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .editor-body {
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+
+        .line-numbers {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            color: var(--editor-comment);
+            text-align: right;
+            user-select: none;
+        }
+
+        .line-number {
+            height: 20px;
+            line-height: 20px;
+        }
+
+        .code-content {
+            margin-left: 40px;
+            overflow-x: auto;
+            white-space: pre;
+            tab-size: 2;
+        }
+
+        .keyword {
+            color: var(--editor-keyword);
+        }
+
+        .function {
+            color: var(--editor-function);
+        }
+
+        .string {
+            color: var(--editor-string);
+        }
+
+        .comment {
+            color: var(--editor-comment);
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: flex;
+            gap: 50px;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+
+        .contact-info p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-method i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .contact-method a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-method a:hover {
+            color: var(--primary);
+        }
+
+        .contact-form {
+            flex: 1;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-darker);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 5px;
+            color: var(--text-light);
+            font-family: 'Courier New', monospace;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border: 1px solid var(--primary);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-darker);
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid var(--primary);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-content, .contact-container {
+                flex-direction: column;
+            }
+            
+            .terminal-container, .editor-container {
+                width: 100%;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Dev<span>X</span></a>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="theme-switcher" id="themeSwitcher">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="fade-in">Hi, I'm <span>DevX</span></h1>
+                <div class="typewriter fade-in delay-1">
+                    <h2>Full Stack Developer | Security Enthusiast</h2>
+                </div>
+                <p class="fade-in delay-2">Building robust, scalable, and secure web applications with cutting-edge technologies.</p>
+                <div class="fade-in delay-3">
+                    <a href="#projects" class="btn">View Projects</a>
+                    <a href="#contact" class="btn btn-outline">Contact Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>I turn ideas into functional, secure applications</h3>
+                    <p>With over 5 years of experience in full stack development, I specialize in creating high-performance web applications with a focus on security and user experience.</p>
+                    <p>My journey in tech started with hacking (the ethical kind!) which gave me a unique perspective on building secure systems from the ground up.</p>
+                    
+                    <div class="skills">
+                        <span class="skill">JavaScript</span>
+                        <span class="skill">TypeScript</span>
+                        <span class="skill">React</span>
+                        <span class="skill">Node.js</span>
+                        <span class="skill">Python</span>
+                        <span class="skill">Django</span>
+                        <span class="skill">PostgreSQL</span>
+                        <span class="skill">MongoDB</span>
+                        <span class="skill">Docker</span>
+                        <span class="skill">AWS</span>
+                        <span class="skill">Cybersecurity</span>
+                        <span class="skill">Blockchain</span>
+                    </div>
+                </div>
+                
+                <div class="terminal-container">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <div class="terminal-btn red"></div>
+                            <div class="terminal-btn yellow"></div>
+                            <div class="terminal-btn green"></div>
+                        </div>
+                        <div class="terminal-title">devx@terminal: ~/about</div>
+                    </div>
+                    <div class="terminal-body" id="terminalBody">
+                        <div class="terminal-line"><span class="terminal-prompt">$</span> whoami</div>
+                        <div class="terminal-line terminal-output">devx - Full Stack Developer & Security Specialist</div>
+                        <div class="terminal-line"><span class="terminal-prompt">$</span> cat skills.txt</div>
+                        <div class="terminal-line terminal-output">JavaScript, React, Node.js, Python, Django, PostgreSQL, Docker, AWS</div>
+                        <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-input" id="terminalInput" contenteditable="true"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section" id="projects">
+        <div class="container">
+            <h2 class="section-title">Project Showcase</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card fade-in">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" alt="Secure Auth System">
+                    </div>
+                    <div class="project-info">
+                        <h3>Secure Auth System</h3>
+                        <p>A multi-factor authentication system with biometric verification and anomaly detection.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">WebAuthn</span>
+                            <span class="tech-tag">JWT</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            <a href="#"><i class="fab fa-github"></i> Source Code</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card fade-in delay-1">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3" alt="Blockchain Explorer">
+                    </div>
+                    <div class="project-info">
+                        <h3>Blockchain Explorer</h3>
+                        <p>Real-time blockchain data visualization tool with transaction analysis features.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Ethereum</span>
+                            <span class="tech-tag">Web3.js</span>
+                            <span class="tech-tag">D3.js</span>
+                            <span class="tech-tag">Express</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            <a href="#"><i class="fab fa-github"></i> Source Code</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card fade-in delay-2">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1639762681057-408e52192e55" alt="API Gateway">
+                    </div>
+                    <div class="project-info">
+                        <h3>Microservice API Gateway</h3>
+                        <p>High-performance gateway for routing, rate limiting, and securing microservices.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Go</span>
+                            <span class="tech-tag">Kong</span>
+                            <span class="tech-tag">OAuth2</span>
+                            <span class="tech-tag">Kubernetes</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            <a href="#"><i class="fab fa-github"></i> Source Code</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Editor Demo -->
+    <section class="section" id="skills">
+        <div class="container">
+            <h2 class="section-title">Code Editor Demo</h2>
+            <div class="editor-container">
+                <div class="editor-header">
+                    <div class="editor-buttons">
+                        <div class="editor-btn red"></div>
+                        <div class="editor-btn yellow"></div>
+                        <div class="editor-btn green"></div>
+                    </div>
+                    <div class="editor-title">api-service.js | DevX</div>
+                </div>
+                <div class="editor-body">
+                    <div class="line-numbers">
+                        <div class="line-number">1</div>
+                        <div class="line-number">2</div>
+                        <div class="line-number">3</div>
+                        <div class="line-number">4</div>
+                        <div class="line-number">5</div>
+                        <div class="line-number">6</div>
+                        <div class="line-number">7</div>
+                        <div class="line-number">8</div>
+                        <div class="line-number">9</div>
+                        <div class="line-number">10</div>
+                        <div class="line-number">11</div>
+                        <div class="line-number">12</div>
+                        <div class="line-number">13</div>
+                        <div class="line-number">14</div>
+                        <div class="line-number">15</div>
+                        <div class="line-number">16</div>
+                        <div class="line-number">17</div>
+                        <div class="line-number">18</div>
+                        <div class="line-number">19</div>
+                        <div class="line-number">20</div>
+                    </div>
+                    <div class="code-content">
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> helmet = <span class="function">require</span>(<span class="string">'helmet'</span>);
+<span class="keyword">const</span> rateLimit = <span class="function">require</span>(<span class="string">'express-rate-limit'</span>);
+
+<span class="comment">// Initialize Express app</span>
+<span class="keyword">const</span> app = <span class="function">express</span>();
+
+<span class="comment">// Security middleware</span>
+app.<span class="function">use</span>(<span class="function">helmet</span>());
+app.<span class="function">use</span>(<span class="function">express</span>.<span class="function">json</span>({ limit: <span class="string">'10kb'</span> }));
+
+<span class="comment">// Rate limiting</span>
+<span class="keyword">const</span> limiter = <span class="function">rateLimit</span>({
+  windowMs: <span class="number">15</span> * <span class="number">60</span> * <span class="number">1000</span>, <span class="comment">// 15 minutes</span>
+  max: <span class="number">100</span>, <span class="comment">// limit each IP to 100 requests per window</span>
+});
+app.<span class="function">use</span>(limiter);
+
+<span class="comment">// API routes</span>
+app.<span class="function">get</span>(<span class="string">'/api/data'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> <span class="function">fetchData</span>();
+    res.<span class="function">json</span>({ success: <span class="keyword">true</span>, data });
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: error.<span class="function">message</span> });
+  }
+});
+
+<span class="comment">// Start server</span>
+<span class="keyword">const</span> PORT = process.env.PORT || <span class="number">3000</span>;
+app.<span class="function">listen</span>(PORT, () => <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Server running on port ${PORT}`</span>));
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Let's build something amazing together</h3>
+                    <p>Whether you have a project in mind or just want to chat about tech, feel free to reach out. I'm always open to interesting collaborations and discussions.</p>
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:contact@devx.example">contact@devx.kh</a>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fab fa-github"></i>
+                            <a href="#" target="_blank">github.com/devx</a>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fab fa-linkedin"></i>
+                            <a href="#" target="_blank">linkedin.com/in/devx</a>
+                        </div>
+                        <div class="contact-method">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+855968313301">+855 968313301</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-dev"></i></a>
+                </div>
+                <p class="copyright">© <span id="year"></span> DevX. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme switcher
+        const themeSwitcher = document.getElementById('themeSwitcher');
+        const html = document.documentElement;
+        
+        themeSwitcher.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            
+            // Update icon
+            const icon = themeSwitcher.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            // Save preference
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        themeSwitcher.querySelector('i').className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        
+        // Terminal functionality
+        const terminalInput = document.getElementById('terminalInput');
+        const terminalBody = document.getElementById('terminalBody');
+        
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const command = terminalInput.textContent.trim();
+                processCommand(command);
+                terminalInput.textContent = '';
+            }
+        });
+        
+        function processCommand(command) {
+            const outputLine = document.createElement('div');
+            outputLine.className = 'terminal-line terminal-output';
+            
+            // Simple command processing
+            switch(command.toLowerCase()) {
+                case 'help':
+                    outputLine.textContent = 'Available commands: help, clear, projects, contact, skills';
+                    break;
+                case 'clear':
+                    terminalBody.innerHTML = `
+                        <div class="terminal-line"><span class="terminal-prompt">$</span> <span class="terminal-input" id="terminalInput" contenteditable="true"></span></div>
+                    `;
+                    terminalInput = document.getElementById('terminalInput');
+                    terminalInput.focus();
+                    return;
+                case 'projects':
+                    outputLine.textContent = 'Check out my projects at: https://devx.example/projects';
+                    break;
+                case 'contact':
+                    outputLine.textContent = 'Email: contact@devx.example | LinkedIn: linkedin.com/in/devx';
+                    break;
+                case 'skills':
+                    outputLine.textContent = 'JavaScript, React, Node.js, Python, Django, PostgreSQL, Docker, AWS, Cybersecurity';
+                    break;
+                case 'date':
+                    outputLine.textContent = new Date().toString();
+                    break;
+                case 'ls':
+                    outputLine.textContent = 'projects  skills.txt  contact.md  about.md';
+                    break;
+                default:
+                    outputLine.textContent = `Command not found: ${command}. Type 'help' for available commands.`;
+            }
+            
+            // Add the output
+            const lastLine = terminalBody.lastElementChild;
+            terminalBody.insertBefore(outputLine, lastLine);
+            
+            // Add new prompt
+            const newPrompt = document.createElement('div');
+            newPrompt.className = 'terminal-line';
+            newPrompt.innerHTML = `<span class="terminal-prompt">$</span> <span class="terminal-input" contenteditable="true"></span>`;
+            terminalBody.appendChild(newPrompt);
+            
+            // Remove the old input
+            lastLine.remove();
+            
+            // Focus on the new input
+            newPrompt.querySelector('.terminal-input').focus();
+        }
+        
+        // Contact form submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const formData = new FormData(contactForm);
+            const data = Object.fromEntries(formData);
+            
+            // Here you would typically send the data to a server
+            console.log('Form submitted:', data);
+            
+            // Show success message
+            alert('Message sent successfully! I\'ll get back to you soon.');
+            contactForm.reset();
+        });
+        
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Typewriter effect
+        const typewriter = document.querySelector('.typewriter');
+        const text = 'Full Stack Developer | Security Enthusiast';
+        let i = 0;
+        
+        function typeWriter() {
+            if (i < text.length) {
+                typewriter.querySelector('h2').textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        
+        // Start typewriter effect after a delay
+        setTimeout(typeWriter, 1000);
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
